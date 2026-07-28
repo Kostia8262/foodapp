@@ -63,6 +63,14 @@
     return weeks > 0 ? weeks : null;
   }
 
+  // % пройденного пути от стартового веса к цели (0..100, зажато по границам)
+  function goalProgressPct(p) {
+    const total = p.goalWeight - p.startWeight;
+    if (Math.abs(total) < 0.001) return 100;
+    const done = p.weight - p.startWeight;
+    return Math.max(0, Math.min(100, Math.round((done / total) * 100)));
+  }
+
   // Есть ли в составе блюда хоть один продукт из категории "не рекомендуется"
   function dishHasAvoid(items, products) {
     return (items || []).some((it) => {
@@ -126,6 +134,7 @@
     macros,
     weeklyRateKg,
     etaWeeks,
+    goalProgressPct,
     dishTotals,
     dishHasAvoid,
     pairKeyOf,
